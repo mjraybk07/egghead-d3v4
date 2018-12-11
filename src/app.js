@@ -57,20 +57,87 @@ document.body.innerHTML = `Hello from <h3> ${d3.version} </h3>`;
 // console.log(quantizeScale(22))   // 0
 
 
-var quantizeScale = d3.scaleQuantize()
-  .domain([0, 100])
-  .range(["red", "white", "green"])
+// var quantizeScale = d3.scaleQuantize()
+//   .domain([0, 100])
+//   .range(["red", "white", "green"])
 
-//console.log(quantizeScale(22))   // 132  example pre quantize output
-console.log(quantizeScale(22))   // red
-console.log(quantizeScale(49))   // white
-console.log(quantizeScale(50))   // white
-console.log(quantizeScale(88))   // green
-console.log(quantizeScale(99))   // green
+// //console.log(quantizeScale(22))   // 132  example pre quantize output
+// console.log(quantizeScale(22))   // red
+// console.log(quantizeScale(49))   // white
+// console.log(quantizeScale(50))   // white
+// console.log(quantizeScale(88))   // green
+// console.log(quantizeScale(99))   // green
 
-// invert extent shows the domain limits for that range
-console.log(quantizeScale.invertExtent("red"))  //  [0, 33.333333333333336]
-console.log(quantizeScale.invertExtent("white")) // [33.333333333333336, 66.66666666666667]
-console.log(quantizeScale.invertExtent("green")) // [66.66666666666667, 100]
+// // invert extent shows the domain limits for that range
+// console.log(quantizeScale.invertExtent("red"))  //  [0, 33.333333333333336]
+// console.log(quantizeScale.invertExtent("white")) // [33.333333333333336, 66.66666666666667]
+// console.log(quantizeScale.invertExtent("green")) // [66.66666666666667, 100]
+
+
+// ORDINAL SCALE
+
+// var ordinalScale = d3.scaleOrdinal()
+//   .domain(["poor", "good", "great"])
+//   .range(["red", "white", "green"])
+
+// console.log(ordinalScale("poor")); // red
+// console.log(ordinalScale("great"));  // green
+// console.log(ordinalScale("good")); // white
+
+
+
+
+// Load and Inspect Data
+
+// d3.json('data/data.json', (data) => {
+//   console.log(data);
+// });
+
+// d3.csv('data/data.csv', (data) => {
+//   console.log(data);
+// });
+
+// d3.tsv('data/data.tsv', (data) => {
+//   console.log(data);
+// });
+
+
+d3.json('data/data.json', (data) => {
+  
+  let min = d3.min(data, (d) => {
+    return d.age;
+  })
+  
+  let max = d3.max(data, (d) => {
+    return d.age;
+  })
+  
+  let extent = d3.extent(data, (d) => {
+    return d.age;
+  })
+  
+  console.log(min);  // 13
+  console.log(max);  // 38
+  console.log(extent) // [13, 38]
+  
+  // create a scale from extent
+  
+  let scale = d3.scaleLinear()
+    .domain(extent)
+    .range([0, 600])
+    
+  console.log(scale(24)) // 264
+  console.log(scale(37))  // 576
+  
+  // create a unique set of values, no duplicates
+  
+  let agesUnique = d3.set(data, (d) => {
+    return d.age;
+  })
+  
+  console.log(agesUnique.values())  // ["23", "38", "13", "37"]
+  
+});
+
 
 
