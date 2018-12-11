@@ -148,24 +148,51 @@
 //var link = d3.selectAll('a');
 // console.log(link.nodes())
 
-var div = d3.select('div');
-var divLinks = div.selectAll('a');
-console.log(divLinks.nodes())  // [a, a, a]
+// var div = d3.select('div');
+// var divLinks = div.selectAll('a');
+// console.log(divLinks.nodes())  // [a, a, a]
 
 // also can use css syntax
 // console.log(div.selectAll('div a').nodes())
 
-var actionLink = d3.select('.action');
-console.log(actionLink.nodes())  // [a.action]
+// var actionLink = d3.select('.action');
+// console.log(actionLink.nodes())  // [a.action]
 
-var secondLink = d3.selectAll('a:nth-child(2)');
-console.log(secondLink.nodes());  // [a]
+// var secondLink = d3.selectAll('a:nth-child(2)');
+// console.log(secondLink.nodes());  // [a]
 
 
-var allLinks = d3.selectAll(document.links);
-console.log(allLinks.nodes())  // [a, a, a, a.action]
-console.log(allLinks.size())  // 4
+// var allLinks = d3.selectAll(document.links);
+// console.log(allLinks.nodes())  // [a, a, a, a.action]
+// console.log(allLinks.size())  // 4
 
+
+
+
+// Modify DOM Elements with D3 v4
+
+// var secondLink = d3.selectAll('a:nth-child(2)');
+// console.log(secondLink.nodes());       // [a]
+// console.log(secondLink.attr('href'))   // #   // single argument is a getter
+// secondLink.attr('href', 'http://google.com')  // double argument is a setter
+// console.log(secondLink.attr('href'));  // http://google.com
+
+var secondLink = d3.selectAll('a:nth-child(2)')
+  
+//console.log(secondLink.attr('href'))
+
+
+// d3.selectAll('a:nth-child(2)')
+//   .attr('href', 'http://google.com')
+//   .style('color', 'red');
+
+// console.log(secondLink.attr('href'));
+// console.log(secondLink.attr('style'))
+
+d3.selectAll('a:nth-child(2)')
+  .attr('href', 'http://google.com')
+  .classed('red', 'true')
+  .html('Inventory <b>SALE</b>')
 
 
 
