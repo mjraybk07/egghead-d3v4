@@ -1,4 +1,4 @@
-document.body.innerHTML = `Hello from <h3> ${d3.version} </h3>`;
+//document.body.innerHTML = `Hello from <h3> ${d3.version} </h3>`;
 
 // LINEAR SCALE
 
@@ -102,42 +102,75 @@ document.body.innerHTML = `Hello from <h3> ${d3.version} </h3>`;
 // });
 
 
-d3.json('data/data.json', (data) => {
+// d3.json('data/data.json', (data) => {
   
-  let min = d3.min(data, (d) => {
-    return d.age;
-  })
+//   let min = d3.min(data, (d) => {
+//     return d.age;
+//   })
   
-  let max = d3.max(data, (d) => {
-    return d.age;
-  })
+//   let max = d3.max(data, (d) => {
+//     return d.age;
+//   })
   
-  let extent = d3.extent(data, (d) => {
-    return d.age;
-  })
+//   let extent = d3.extent(data, (d) => {
+//     return d.age;
+//   })
   
-  console.log(min);  // 13
-  console.log(max);  // 38
-  console.log(extent) // [13, 38]
+//   console.log(min);  // 13
+//   console.log(max);  // 38
+//   console.log(extent) // [13, 38]
   
-  // create a scale from extent
+//   // create a scale from extent
   
-  let scale = d3.scaleLinear()
-    .domain(extent)
-    .range([0, 600])
+//   let scale = d3.scaleLinear()
+//     .domain(extent)
+//     .range([0, 600])
     
-  console.log(scale(24)) // 264
-  console.log(scale(37))  // 576
+//   console.log(scale(24)) // 264
+//   console.log(scale(37))  // 576
   
-  // create a unique set of values, no duplicates
+//   // create a unique set of values, no duplicates
   
-  let agesUnique = d3.set(data, (d) => {
-    return d.age;
-  })
+//   let agesUnique = d3.set(data, (d) => {
+//     return d.age;
+//   })
   
-  console.log(agesUnique.values())  // ["23", "38", "13", "37"]
+//   console.log(agesUnique.values())  // ["23", "38", "13", "37"]
   
-});
+// });
+
+
+
+
+
+// Select DOM Elements with D3 v4
+
+//var link = d3.selectAll('a');
+// console.log(link.nodes())
+
+var div = d3.select('div');
+var divLinks = div.selectAll('a');
+console.log(divLinks.nodes())  // [a, a, a]
+
+// also can use css syntax
+// console.log(div.selectAll('div a').nodes())
+
+var actionLink = d3.select('.action');
+console.log(actionLink.nodes())  // [a.action]
+
+var secondLink = d3.selectAll('a:nth-child(2)');
+console.log(secondLink.nodes());  // [a]
+
+
+var allLinks = d3.selectAll(document.links);
+console.log(allLinks.nodes())  // [a, a, a, a.action]
+console.log(allLinks.size())  // 4
+
+
+
+
+
+
 
 
 
