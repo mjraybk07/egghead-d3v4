@@ -177,7 +177,7 @@
 // secondLink.attr('href', 'http://google.com')  // double argument is a setter
 // console.log(secondLink.attr('href'));  // http://google.com
 
-var secondLink = d3.selectAll('a:nth-child(2)')
+//var secondLink = d3.selectAll('a:nth-child(2)')
   
 //console.log(secondLink.attr('href'))
 
@@ -189,10 +189,26 @@ var secondLink = d3.selectAll('a:nth-child(2)')
 // console.log(secondLink.attr('href'));
 // console.log(secondLink.attr('style'))
 
-d3.selectAll('a:nth-child(2)')
-  .attr('href', 'http://google.com')
-  .classed('red', 'true')
-  .html('Inventory <b>SALE</b>')
+// d3.selectAll('a:nth-child(2)')
+//   .attr('href', 'http://google.com')
+//   .classed('red', 'true')
+//   .html('Inventory <b>SALE</b>')
+
+
+
+
+
+//  Create DOM Elements with D3 v4
+
+d3.select('.title')
+  .append('div')
+    .style('color', 'red')
+    .html('Inventory <b>SALE</b>')
+  .append('button')
+    .style('display', 'block')
+    .text('submit')
+
+
 
 
 
