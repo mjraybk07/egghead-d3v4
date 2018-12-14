@@ -1,9 +1,9 @@
  
 //Margin Convention with D3 v4
  
-var margin = { top: 10, right: 20, bottom: 60, left: 30 };
+var margin = { top: 10, right: 20, bottom: 30, left: 30 };
 var width = 400 - margin.left - margin.right;
-var height = 600 - margin.top - margin.bottom;
+var height = 565 - margin.top - margin.bottom;
 
   
 var svg = d3.select('.chart')
@@ -14,58 +14,31 @@ var svg = d3.select('.chart')
   .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
     
-var data = [
-  {score: 63, subject: 'Mathematics'},
-  {score: 82, subject: 'Geography'},
-  {score: 74, subject: 'Spelling'},
-  {score: 97, subject: 'Reading'},
-  {score: 52, subject: 'Science'},
-  {score: 74, subject: 'Chemistry'},
-  {score: 97, subject: 'Physics'},
-  {score: 52, subject: 'ASL'}
-];
-  
-//Create Chart Axes with D3 v4
-  
   
 var yScale = d3.scaleLinear()
   .domain([0, 100])
   .range([height, 0])
+  .nice();
   
-var yAxis = d3.axisLeft(yScale)
+var yAxis = d3.axisLeft(yScale);
 
-svg.call(yAxis)
+svg.call(yAxis);
 
 
-var xScale = d3.scaleBand()
-  .padding(0.2)
-  .domain(data.map(d => d.subject))
+var xScale = d3.scaleLinear()
+  .domain([0, 100])
   .range([0, width])
+  .nice()
 
 var xAxis = d3.axisBottom(xScale)
   .ticks(5)
-  .tickSize(10)
-  .tickPadding(5)
 
 svg.append('g')
     .attr('transform', `translate(0, ${height})`)
   .call(xAxis)
   .selectAll('text')
-  .style('text-anchor', 'end')
-  .attr('transform', 'rotate(-45)')
+
   
-svg.selectAll('rect')
-  .data(data)
-  .enter()
-  .append('rect')
-  .attr('x', d => xScale(d.subject))
-  .attr('y', d => yScale(d.score))
-  .attr('width', d => xScale.bandwidth())
-  .attr('height', d => height - yScale(d.score))
-  .attr('fill', 'steelblue') 
- 
- 
-//Make D3 v4 Charts Responsive with the viewBox attribute 
 
 // Make chart responsive
 
