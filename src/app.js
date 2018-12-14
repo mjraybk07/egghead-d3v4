@@ -14,64 +14,61 @@ var svg = d3.select('.chart')
    
   
 // load sample data
-d3.json('./data.json', function (err, data) {
+d3.json('./data.json', function (err, data) { 
+
+  var parseTime = d3.timeParse('%Y/%m/%d');
   
-  var yScale = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.expectancy))
-    .range([height, 0])
-    .nice();
+  data.forEach(company => {
+    company.values.forEach(d => {
+      d.date = parseTime(d.date);
+      d.close = +d.close;
+    })
+  })
+
+  var xScale = d3.scaleTime()
+    .domain([
+       d3.min(data, co => d3.min(co.values, d => d.date)),
+       d3.max(data, co => d3.max(co.values, d => d.date))
+    ])
+    .range([0, width]);
     
-  var yAxis = d3.axisLeft(yScale);
-
-  svg.call(yAxis);
-
-
-  var xScale = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.cost))
-    .range([0, width])
-    .nice()
-
-  var xAxis = d3.axisBottom(xScale)
-    .ticks(5)
-
-  svg.append('g')
+  svg
+    .append('g')
       .attr('transform', `translate(0, ${height})`)
-    .call(xAxis)
-    .selectAll('text')
-
-
-  // create circles for charting data
-  var rScale = d3.scaleSqrt()
-    .domain([0, d3.max(data, d => d.population)])
-    .range([0, 40]);
+    .call(d3.axisBottom(xScale).ticks(5));
     
-  var circles = svg.selectAll('.ball')
+  var yScale = d3.scaleLinear()
+    .domain([
+       d3.min(data, co => d3.min(co.values, d => d.close)),
+       d3.max(data, co => d3.max(co.values, d => d.close))
+    ])
+    .range([height, 0])
+    
+  svg
+    .append('g')
+    .call(d3.axisLeft(yScale));
+    
+    
+  var line = d3.line()
+    .x(d => xScale(d.date))
+    .y(d => yScale(d.close))
+    .curve(d3.curveCatmullRom.alpha(0.5));
+    
+  svg
+    .selectAll('.line')
     .data(data)
     .enter()
-    .append('g')
-      .attr('class', 'ball')
-      .attr('transform', d => {
-        return `translate(${xScale(d.cost)}, ${yScale(d.expectancy)})`
-      });
-      
-  circles
-    .append('circle')    
-      .attr('cx', 0)
-      .attr('cy', 0)
-      .attr('r', d => rScale(d.population))
-      .style('fill', 'steelblue')
-      .style('fill-opacity', 0.5);
-      
-  circles
-    .append('text')
-    .style('text-anchor', 'middle')
-    .style('fill', 'black')
-    .attr('y', 4)
-    .text(d => d.code)
+    .append('path')
+      .attr('class', line)
+      .attr('d', d => line(d.values))
+      .style('stroke', (d, i) => [ '#FF9900', '#3369E8'][i])
+      .style('stroke-width', 2)
+      .style('fill', 'none')
+    
+
+});
   
-}) 
-   
-// create axes 
+
   
 
   
